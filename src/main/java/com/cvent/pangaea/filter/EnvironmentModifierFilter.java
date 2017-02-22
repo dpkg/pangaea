@@ -68,7 +68,7 @@ class QueryStringModifierFilter implements ContainerRequestFilter {
      * @param toValue the value to replace the environment query parameter with
      */
     QueryStringModifierFilter(String queryParamToModify, String toValue) {
-        this(queryParamToModify, null, toValue);
+        this(queryParamToModify, toValue, null);
     }
 
     @Override
