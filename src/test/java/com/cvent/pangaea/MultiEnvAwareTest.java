@@ -1,15 +1,20 @@
 package com.cvent.pangaea;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
+
+import java.util.Date;
+import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.Sets;
 
 public class MultiEnvAwareTest {
 
@@ -163,6 +168,24 @@ public class MultiEnvAwareTest {
         MultiEnvAware<String> convert = unit.convert((env, val) -> env + "_" + val.toString());
         assertThat(convert.hasDefaultEnvironment(), is(true));
         assertThat(convert.get(), is("1_DEFAULT"));
+    }
+
+    @Test
+    public void testContainsKey() {
+        // First make sure keys in map can be found
+        unit.put("key1", new MultiEnvConfig());
+        assertThat(unit.containsKey("key1"), is(true));
+
+        // Then verify null key should returns false but no exception
+        assertThat(unit.containsKey(null), is(false));
+
+        // Last verify key not in the map should returns false but no exception
+        assertThat(unit.containsKey("key2"), is(false));
+
+        // Key that is not String type should also be handled
+        assertThat(unit.containsKey(Long.valueOf(1L)), is(false));
+        assertThat(unit.containsKey(Double.valueOf(1.0)), is(false));
+        assertThat(unit.containsKey(new Date()), is(false));
     }
 
     private static class MultiEnvConfig extends BaseEnvironmentConfiguration {
