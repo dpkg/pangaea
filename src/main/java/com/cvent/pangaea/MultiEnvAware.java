@@ -100,7 +100,7 @@ public class MultiEnvAware<T> implements Map<String, T> {
      */
     @Override
     public boolean containsKey(Object key) {
-        return map.containsKey(key);
+        return key != null && map.containsKey(key);
     }
 
     /**
