@@ -18,7 +18,8 @@ public class MultiEnvSupportExceptionMapper implements ExceptionMapper<MultiEnvS
 
     @Override
     public Response toResponse(MultiEnvSupportException e) {
-        return Response.status(RESPONSE_STATUS).entity(new ErrorMessage(e.getMessage())).build();
+        return Response.status(RESPONSE_STATUS).entity(new ErrorMessage(RESPONSE_STATUS.getStatusCode(), 
+                e.getMessage())).build();
     }
 
     /**
