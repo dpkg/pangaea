@@ -11,7 +11,6 @@ import io.dropwizard.jackson.AnnotationSensitivePropertyNamingStrategy;
 import io.dropwizard.jackson.DiscoverableSubtypeResolver;
 import io.dropwizard.jackson.FuzzyEnumModule;
 import io.dropwizard.jackson.GuavaExtrasModule;
-import io.dropwizard.jackson.LogbackModule;
 import java.io.IOException;
 
 /**
@@ -37,7 +36,6 @@ public class SiloTemplateResolver<T> implements TemplateResolver<T> {
     public SiloTemplateResolver(Class<T> classType) {
         ObjectMapper m = new ObjectMapper();
         m.registerModule(new GuavaModule());
-        m.registerModule(new LogbackModule());
         m.registerModule(new GuavaExtrasModule());
         m.registerModule(new JodaModule());
         m.registerModule(new JSR310Module());
