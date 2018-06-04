@@ -1,6 +1,5 @@
 package com.cvent.pangaea;
 
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,6 +9,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiFunction;
 import java.util.function.Function;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Encapsulate multi environment aware logic
