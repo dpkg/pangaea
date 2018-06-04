@@ -10,7 +10,7 @@
 
     <groupId>com.cvent</groupId>
     <artifactId>pangaea</artifactId>
-    <version>2.0.0-SNAPSHOT</version>
+    <version>2.0.0</version>
     <packaging>jar</packaging>
 
     <name>pangaea</name>
@@ -88,7 +88,7 @@
         <url>https://github.com/cvent/pangaea</url>
         <connection>scm:git:git@github.com/cvent/pangaea.git</connection>
         <developerConnection>scm:git:git@github.com:cvent/pangaea.git</developerConnection>
-        <tag>HEAD</tag>
+        <tag>pangaea-2.0.0</tag>
     </scm>
 
     <licenses>
