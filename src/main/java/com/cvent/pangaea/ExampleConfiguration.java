@@ -2,6 +2,7 @@ package com.cvent.pangaea;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * This is just an example configuration object that is meant to be used as part of the dropwizard configuration
@@ -21,13 +22,13 @@ class ExampleConfiguration {
     @JsonIgnore
     public MultiEnvAware<String> getSurveyUrlDefaultDomains() {
         return environmentConfig.convert((env, conf) -> conf.getSurveyUrlDefaultDomain(),
-                new SiloTemplateResolver<>(String.class));
+                new SiloTemplateResolver<>(String.class, new ObjectMapper()));
     }
 
     @JsonIgnore
     public MultiEnvAware<String> getSurveyUrlAppRoots() {
         return environmentConfig.convert((env, conf) -> conf.getSurveyUrlAppRoot(),
-                new SiloTemplateResolver<>(String.class));
+                new SiloTemplateResolver<>(String.class, new ObjectMapper()));
     }
 
     @JsonIgnore
@@ -40,7 +41,8 @@ class ExampleConfiguration {
     }
 
     public MultiEnvAware<MultiEnvConfig> getEnvironmentConfig() {
-        return environmentConfig.convert((env, conf) -> conf, new SiloTemplateResolver<>(MultiEnvConfig.class));
+        return environmentConfig.convert((env, conf) -> conf, new SiloTemplateResolver<>(MultiEnvConfig.class, 
+            new ObjectMapper()));
     }
 
     /**

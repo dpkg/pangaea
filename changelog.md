@@ -1,4 +1,8 @@
 # Change Log
+## [3.0.0]
+ - Update to dropwizard 1.3.5
+ - Remove constructor of SiloTemplateResolver because it causes issues with serialization
+
 ## [2.0.0]
  - Update to be compatible with dropwizard 1.3
 

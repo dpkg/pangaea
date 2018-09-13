@@ -10,7 +10,7 @@
 
     <groupId>com.cvent</groupId>
     <artifactId>pangaea</artifactId>
-    <version>2.0.2-SNAPSHOT</version>
+    <version>3.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>pangaea</name>
@@ -18,7 +18,7 @@
     <url>https://github.com/cvent/pangaea</url>
 
     <properties>
-        <dropwizard.version>1.3.3</dropwizard.version>
+        <dropwizard.version>1.3.5</dropwizard.version>
         <hamcrest-library.version>1.3</hamcrest-library.version>
     </properties>
 

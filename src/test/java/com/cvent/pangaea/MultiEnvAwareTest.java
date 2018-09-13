@@ -58,7 +58,7 @@ public class MultiEnvAwareTest {
         unit.put("template", template);
 
         MultiEnvAware<MultiEnvConfig> convertedUnit = unit.convert((env, conf) -> conf,
-                new SiloTemplateResolver<>(MultiEnvConfig.class));
+                new SiloTemplateResolver<>(MultiEnvConfig.class, new ObjectMapper()));
         MultiEnvConfig result = convertedUnit.get("S999");
         assertThat(result.surveyUrlDefaultDomain, is("a1-999-dba.a1.cvent.com"));
         assertThat(result.isTemplate(), is(true));

@@ -1,16 +1,6 @@
 package com.cvent.pangaea;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.guava.GuavaModule;
-import com.fasterxml.jackson.datatype.joda.JodaModule;
-import com.fasterxml.jackson.datatype.jsr310.JSR310Module;
-import com.fasterxml.jackson.module.afterburner.AfterburnerModule;
-import io.dropwizard.jackson.AnnotationSensitivePropertyNamingStrategy;
-import io.dropwizard.jackson.DiscoverableSubtypeResolver;
-import io.dropwizard.jackson.FuzzyEnumModule;
-import io.dropwizard.jackson.GuavaExtrasModule;
 import java.io.IOException;
 
 /**
@@ -32,27 +22,6 @@ public class SiloTemplateResolver<T> implements TemplateResolver<T> {
     private static final String SILO_REPLACEMENT_DIGITS = "XXX";
     private final Class<T> classType;
     private final ObjectMapper mapper;
-
-    public SiloTemplateResolver(Class<T> classType) {
-        ObjectMapper m = new ObjectMapper();
-        m.registerModule(new GuavaModule());
-        m.registerModule(new GuavaExtrasModule());
-        m.registerModule(new JodaModule());
-        m.registerModule(new JSR310Module());
-        m.registerModule(new AfterburnerModule());
-        m.registerModule(new FuzzyEnumModule());
-        m.setPropertyNamingStrategy(new AnnotationSensitivePropertyNamingStrategy());
-        m.setSubtypeResolver(new DiscoverableSubtypeResolver());
-
-        //Setup object mapper to ignore the null properties when serializing the objects
-        m.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        //Lets be nice and allow additional properties by default.  Allows for more flexible forward/backward 
-        //compatibility and works well with jackson addtional properties feature for serialization
-        m.configure(FAIL_ON_UNKNOWN_PROPERTIES, false);
-
-        this.classType = classType;
-        this.mapper = m;
-    }
 
     public SiloTemplateResolver(Class<T> classType, ObjectMapper mapper) {
         this.classType = classType;
