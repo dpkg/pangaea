@@ -1,18 +1,20 @@
 package com.cvent.pangaea.filter;
 
 import com.cvent.pangaea.MultiEnvAware;
+import org.apache.commons.lang3.ArrayUtils;
 
+import javax.ws.rs.container.ContainerRequestContext;
+import javax.ws.rs.container.ContainerRequestFilter;
+import javax.ws.rs.container.PreMatching;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.ext.Provider;
 import java.net.URI;
-import javax.ws.rs.container.ContainerRequestContext;
-import javax.ws.rs.container.ContainerRequestFilter;
-import org.apache.commons.lang3.ArrayUtils;
 
 /**
  * Modifies the environment parameter from the request query string parameters for production environment.
  */
 @Provider
+@PreMatching
 public class EnvironmentModifierFilter extends QueryStringModifierFilter {
 
     /**

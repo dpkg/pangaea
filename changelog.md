@@ -1,5 +1,8 @@
 # Change Log
 
+## [3.0.3] (2019-02-20)
+- Add @Prematching to EnvironmentModifierFilter to fix "java.lang.IllegalStateException: Method could be called only in pre-matching request filter."
+
 ## [3.0.2]
 - Update retrofit2 to 2.5.0
 
