@@ -1,10 +1,11 @@
 package com.cvent.pangaea.filter;
 
 import com.cvent.pangaea.MultiEnvAware;
-import com.sun.jersey.spi.container.ContainerRequest;
-import com.sun.jersey.spi.container.ContainerRequestFilter;
-import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang3.ArrayUtils;
 
+import javax.ws.rs.container.ContainerRequestContext;
+import javax.ws.rs.container.ContainerRequestFilter;
+import javax.ws.rs.container.PreMatching;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.ext.Provider;
 import java.net.URI;
@@ -13,6 +14,7 @@ import java.net.URI;
  * Modifies the environment parameter from the request query string parameters for production environment.
  */
 @Provider
+@PreMatching
 public class EnvironmentModifierFilter extends QueryStringModifierFilter {
 
     /**
@@ -72,20 +74,19 @@ class QueryStringModifierFilter implements ContainerRequestFilter {
     }
 
     @Override
-    public ContainerRequest filter(ContainerRequest request) {
+    public void filter(ContainerRequestContext requestContext) {
         // only if the query parameters contain the configured name
         // and one of the values from "fromValues"
-        if (request.getQueryParameters() != null
-                && !request.getQueryParameters().isEmpty()
-                && request.getQueryParameters().containsKey(queryParamToModify)
+        if (requestContext.getUriInfo().getQueryParameters() != null
+                && !requestContext.getUriInfo().getQueryParameters().isEmpty()
+                && requestContext.getUriInfo().getQueryParameters().containsKey(queryParamToModify)
                 && ArrayUtils.contains(fromValues,
-                  request.getQueryParameters().getFirst(queryParamToModify))) {
+                  requestContext.getUriInfo().getQueryParameters().getFirst(queryParamToModify))) {
 
-            URI modifiedUri = getModifiedUri(request.getRequestUri());
+            URI modifiedUri = getModifiedUri(requestContext.getUriInfo().getRequestUri());
 
-            request.setUris(request.getBaseUri(), modifiedUri);
+            requestContext.setRequestUri(requestContext.getUriInfo().getBaseUri(), modifiedUri);
         }
-        return request;
     }
 
     private URI getModifiedUri(URI originalUri) {

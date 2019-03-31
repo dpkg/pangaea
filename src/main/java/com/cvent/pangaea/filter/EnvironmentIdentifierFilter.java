@@ -3,10 +3,10 @@ package com.cvent.pangaea.filter;
 
 import com.cvent.pangaea.MultiEnvAware;
 import com.cvent.pangaea.util.EnvironmentUtil;
-import com.sun.jersey.spi.container.ContainerRequest;
-import com.sun.jersey.spi.container.ContainerRequestFilter;
-import com.sun.jersey.spi.container.ContainerResponse;
-import com.sun.jersey.spi.container.ContainerResponseFilter;
+import javax.ws.rs.container.ContainerRequestContext;
+import javax.ws.rs.container.ContainerRequestFilter;
+import javax.ws.rs.container.ContainerResponseContext;
+import javax.ws.rs.container.ContainerResponseFilter;
 
 /**
  * @author n.golani
@@ -25,21 +25,21 @@ public class EnvironmentIdentifierFilter implements ContainerRequestFilter, Cont
 
     
     @Override
-    public ContainerRequest filter(ContainerRequest request) {
+    public void filter(ContainerRequestContext requestContext) {
         
-        String environmentInRequest = getEnvParamFromRequest(request);
+        String environmentInRequest = getEnvParamFromRequest(requestContext);
         
         if (environmentInRequest != null) {
             EnvironmentUtil.setEnvironment(environmentInRequest);
         }
-        return request;
     }
 
-    private String getEnvParamFromRequest(ContainerRequest request) {
-        if (request.getQueryParameters() != null && !request.getQueryParameters().isEmpty()
-                && request.getQueryParameters().containsKey(
+    private String getEnvParamFromRequest(ContainerRequestContext requestContext) {
+        if (requestContext.getUriInfo().getQueryParameters() != null 
+            && !requestContext.getUriInfo().getQueryParameters().isEmpty()
+                && requestContext.getUriInfo().getQueryParameters().containsKey(
                         MultiEnvAware.ENVIRONMENT)) {
-            return request.getQueryParameters()
+            return requestContext.getUriInfo().getQueryParameters()
                     .get(MultiEnvAware.ENVIRONMENT).get(0);
         }
         
@@ -47,10 +47,9 @@ public class EnvironmentIdentifierFilter implements ContainerRequestFilter, Cont
     }
 
     @Override
-    public ContainerResponse filter(ContainerRequest request,
-            ContainerResponse response) {
+    public void filter(ContainerRequestContext requestContext,
+            ContainerResponseContext responseContext) {
         EnvironmentUtil.removeEnvironment();
-        return response;
     }
 
 }

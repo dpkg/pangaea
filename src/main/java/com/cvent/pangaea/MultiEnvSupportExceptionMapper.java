@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Objects;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
-import org.apache.commons.lang.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 
 /**
@@ -18,7 +18,8 @@ public class MultiEnvSupportExceptionMapper implements ExceptionMapper<MultiEnvS
 
     @Override
     public Response toResponse(MultiEnvSupportException e) {
-        return Response.status(RESPONSE_STATUS).entity(new ErrorMessage(e.getMessage())).build();
+        return Response.status(RESPONSE_STATUS).entity(new ErrorMessage(RESPONSE_STATUS.getStatusCode(), 
+                e.getMessage())).build();
     }
 
     /**

@@ -4,8 +4,6 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
-import java.util.Date;
-import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -14,8 +12,12 @@ import org.junit.rules.ExpectedException;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.collect.Sets;
 
+/**
+ * Test code for MultiEnvAware
+ * 
+ * @author bryan
+ */
 public class MultiEnvAwareTest {
 
     @Rule
@@ -56,7 +58,7 @@ public class MultiEnvAwareTest {
         unit.put("template", template);
 
         MultiEnvAware<MultiEnvConfig> convertedUnit = unit.convert((env, conf) -> conf,
-                new SiloTemplateResolver<>(MultiEnvConfig.class));
+                new SiloTemplateResolver<>(MultiEnvConfig.class, new ObjectMapper()));
         MultiEnvConfig result = convertedUnit.get("S999");
         assertThat(result.surveyUrlDefaultDomain, is("a1-999-dba.a1.cvent.com"));
         assertThat(result.isTemplate(), is(true));
@@ -181,13 +183,11 @@ public class MultiEnvAwareTest {
 
         // Last verify key not in the map should returns false but no exception
         assertThat(unit.containsKey("key2"), is(false));
-
-        // Key that is not String type should also be handled
-        assertThat(unit.containsKey(Long.valueOf(1L)), is(false));
-        assertThat(unit.containsKey(Double.valueOf(1.0)), is(false));
-        assertThat(unit.containsKey(new Date()), is(false));
     }
 
+    /**
+     * Test class for multi env configs
+     */
     private static class MultiEnvConfig extends BaseEnvironmentConfiguration {
 
         @JsonProperty
